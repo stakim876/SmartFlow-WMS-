@@ -1,0 +1,52 @@
+/*
+ * my-shop 과 동일한 시맨틱 디자인 토큰
+ */
+:root {
+  color-scheme: light;
+
+  --color-surface-base: #f4f6f9;
+  --color-surface-raised: #ffffff;
+  --color-surface-sunken: #eef1f6;
+  --color-surface-overlay: #ffffff;
+
+  --color-text-primary: #0f172a;
+  --color-text-secondary: #475569;
+  --color-text-muted: #64748b;
+
+  --color-border-default: rgba(15, 23, 42, 0.1);
+  --color-border-strong: rgba(15, 23, 42, 0.16);
+
+  --color-accent: #4f46e5;
+  --color-accent-muted: rgba(79, 70, 229, 0.12);
+
+  --scrollbar-thumb: rgba(15, 23, 42, 0.22);
+  --scrollbar-thumb-hover: rgba(15, 23, 42, 0.35);
+  --scrollbar-track: transparent;
+}
+
+.dark {
+  color-scheme: dark;
+
+  --color-surface-base: #141820;
+  --color-surface-raised: #1c2330;
+  --color-surface-sunken: #0f1218;
+  --color-surface-overlay: #242c3b;
+
+  --color-text-primary: #eceef3;
+  --color-text-secondary: #b8c0cc;
+  --color-text-muted: #7b8698;
+
+  --color-border-default: rgba(255, 255, 255, 0.07);
+  --color-border-strong: rgba(255, 255, 255, 0.12);
+
+  --color-accent: #93a3f8;
+  --color-accent-muted: rgba(147, 163, 248, 0.14);
+
+  --scrollbar-thumb: rgba(255, 255, 255, 0.16);
+  --scrollbar-thumb-hover: rgba(255, 255, 255, 0.26);
+  --scrollbar-track: transparent;
+
+  --color-ambient-1: rgba(99, 102, 241, 0.09);
+  --color-ambient-2: rgba(56, 189, 248, 0.05);
+  --color-ambient-3: rgba(167, 139, 250, 0.04);
+}

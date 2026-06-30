@@ -1,0 +1,129 @@
+/* my-shop shop-admin-table 패턴 */
+.tableWrapper {
+  background: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-lg);
+  overflow: hidden;
+  box-shadow: var(--shadow-xs);
+}
+
+.table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.875rem;
+  color: var(--color-text);
+}
+
+.table th,
+.table td {
+  padding: 0.625rem 0.75rem;
+  text-align: left;
+  border-bottom: 1px solid var(--color-border);
+  vertical-align: middle;
+}
+
+.table th {
+  background: color-mix(in srgb, var(--color-surface-sunken) 95%, transparent);
+  font-size: 0.75rem;
+  font-weight: 600;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  color: var(--color-text-muted);
+}
+
+.table tbody tr:hover {
+  background: color-mix(in srgb, var(--color-surface-sunken) 70%, transparent);
+}
+
+.dark .table tbody tr:hover {
+  background: var(--color-surface-overlay);
+}
+
+.searchBar {
+  display: flex;
+  gap: 0.5rem;
+  margin-bottom: 1rem;
+  flex-wrap: wrap;
+}
+
+.searchInput {
+  flex: 1;
+  min-width: 200px;
+  max-width: 320px;
+  padding: 0.5rem 0.75rem;
+  border: 1px solid var(--color-border-strong);
+  border-radius: var(--radius-lg);
+  font-size: 0.875rem;
+  background: var(--color-surface);
+  color: var(--color-text);
+  box-shadow: var(--shadow-sm);
+}
+
+.searchInput:focus {
+  outline: none;
+  border-color: color-mix(in srgb, var(--color-accent) 50%, transparent);
+  box-shadow: 0 0 0 3px var(--color-primary-ring);
+}
+
+.pagination {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 1rem;
+  margin-top: 1rem;
+}
+
+.error {
+  margin-bottom: 1rem;
+  padding: 0.75rem;
+  background: color-mix(in srgb, var(--color-danger) 8%, transparent);
+  color: var(--color-danger);
+  border-radius: var(--radius-md);
+  font-size: 0.875rem;
+  border: 1px solid color-mix(in srgb, var(--color-danger) 20%, transparent);
+}
+
+.empty {
+  text-align: center;
+  color: var(--color-text-muted);
+  padding: 2rem !important;
+}
+
+.actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+}
+
+.linkBtn,
+.linkBtnDanger {
+  background: none;
+  border: none;
+  padding: 0;
+  font-size: 0.8125rem;
+  cursor: pointer;
+}
+
+.linkBtn {
+  color: var(--color-text-secondary);
+  font-weight: 500;
+}
+
+.linkBtn:hover {
+  color: var(--color-text);
+  text-decoration: underline;
+}
+
+.linkBtnDanger {
+  color: var(--color-danger);
+}
+
+.linkBtnDanger:hover {
+  text-decoration: underline;
+}
+
+@media (max-width: 768px) {
+  .tableWrapper {
+    overflow-x: auto;
+  }
+}

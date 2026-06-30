@@ -1,0 +1,27 @@
+.badge {
+  display: inline-block;
+  padding: 0.125rem 0.5rem;
+  border-radius: 999px;
+  font-size: 0.75rem;
+  font-weight: 500;
+}
+
+.INBOUND {
+  background: #dcfce7;
+  color: #166534;
+}
+
+.OUTBOUND {
+  background: #fee2e2;
+  color: #991b1b;
+}
+
+.ADJUSTMENT {
+  background: #e0e7ff;
+  color: #3730a3;
+}
+
+.TRANSFER {
+  background: #cffafe;
+  color: #155e75;
+}
