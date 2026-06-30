@@ -9,7 +9,7 @@ let io: Server | null = null;
 export function initSocket(server: HttpServer) {
   io = new Server(server, {
     cors: {
-      origin: env.corsOrigin,
+      origin: env.corsOrigins,
       credentials: true,
     },
     path: '/socket.io',

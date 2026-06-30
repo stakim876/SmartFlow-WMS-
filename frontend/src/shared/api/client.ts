@@ -40,6 +40,15 @@ apiClient.interceptors.response.use(
       return Promise.reject(error);
     }
 
+    const requestUrl = originalRequest.url ?? '';
+    const isAuthRequest =
+      requestUrl.includes('/auth/login') ||
+      requestUrl.includes('/auth/register') ||
+      requestUrl.includes('/auth/refresh');
+    if (isAuthRequest) {
+      return Promise.reject(error);
+    }
+
     const refreshTokenValue = localStorage.getItem('refreshToken');
     if (!refreshTokenValue || originalRequest.url?.includes('/auth/refresh')) {
       localStorage.removeItem('accessToken');

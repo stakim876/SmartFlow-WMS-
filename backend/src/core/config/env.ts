@@ -20,7 +20,10 @@ export const env = {
     refreshSecret: requireEnv('JWT_REFRESH_SECRET'),
     refreshExpiresIn: process.env.JWT_REFRESH_EXPIRES_IN ?? '7d',
   },
-  corsOrigin: process.env.CORS_ORIGIN ?? 'http://localhost:5173',
+  corsOrigins: (process.env.CORS_ORIGIN ?? 'http://localhost:5173,http://127.0.0.1:5173')
+    .split(',')
+    .map((origin) => origin.trim())
+    .filter(Boolean),
   apiBaseUrl: process.env.API_BASE_URL ?? 'http://localhost:4000',
   shop: {
     apiUrl: process.env.SHOP_API_URL ?? 'http://localhost:3102',

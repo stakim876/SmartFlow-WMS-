@@ -17,7 +17,8 @@ import { useAuthStore } from '@/features/auth/stores/authStore';
 
 function GuestRoute({ children }: { children: React.ReactNode }) {
   const isAuthenticated = useAuthStore((state) => state.isAuthenticated);
-  if (isAuthenticated) {
+  const user = useAuthStore((state) => state.user);
+  if (isAuthenticated && user) {
     return <Navigate to="/dashboard" replace />;
   }
   return <>{children}</>;
