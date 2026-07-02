@@ -24,6 +24,11 @@ export const purchaseOrderController = {
     res.json(successResponse(order, '발주가 완료되었습니다.'));
   }),
 
+  convertToInbound: asyncHandler(async (req: Request, res: Response) => {
+    const result = await purchaseOrderService.convertToInbound(String(req.params.id));
+    res.status(201).json(successResponse(result, '입고 전표가 생성되었습니다.'));
+  }),
+
   cancel: asyncHandler(async (req: Request, res: Response) => {
     const order = await purchaseOrderService.cancel(String(req.params.id));
     res.json(successResponse(order, '발주 전표가 취소되었습니다.'));

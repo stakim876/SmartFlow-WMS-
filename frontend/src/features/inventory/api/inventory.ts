@@ -99,6 +99,8 @@ export interface InventoryMovement {
   referenceId: string | null;
   note: string | null;
   createdAt: string;
+  createdById: string | null;
+  createdByName: string | null;
   product: { id: string; sku: string; name: string };
   location: {
     id: string;

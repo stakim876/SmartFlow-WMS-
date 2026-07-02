@@ -81,6 +81,8 @@ export const inventoryRepository = {
     take: number;
     productId?: string;
     type?: MovementType;
+    from?: Date;
+    to?: Date;
   }) {
     const where: Prisma.InventoryMovementWhereInput = {};
 
@@ -90,6 +92,13 @@ export const inventoryRepository = {
 
     if (params.type) {
       where.type = params.type;
+    }
+
+    if (params.from || params.to) {
+      where.createdAt = {
+        ...(params.from ? { gte: params.from } : {}),
+        ...(params.to ? { lte: params.to } : {}),
+      };
     }
 
     const include = {

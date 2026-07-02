@@ -124,10 +124,34 @@ export function IconLink(props: IconProps) {
   );
 }
 
+export function IconWarehouse(props: IconProps) {
+  return (
+    <IconBase {...props}>
+      <path d="M3 9 12 4l9 5v11H3V9Z" />
+      <path d="M9 22V12h6v10" />
+      <path d="M3 9h18" />
+    </IconBase>
+  );
+}
+
+export function IconReport(props: IconProps) {
+  return (
+    <IconBase {...props}>
+      <path d="M6 3h9l3 3v15H6V3Z" />
+      <path d="M15 3v4h4" />
+      <path d="M9 13h6" />
+      <path d="M9 17h6" />
+      <path d="M9 9h3" />
+    </IconBase>
+  );
+}
+
 export type NavIconName =
   | 'dashboard'
+  | 'reports'
   | 'products'
   | 'inventory'
+  | 'warehouses'
   | 'inbound'
   | 'outbound'
   | 'partners'
@@ -138,8 +162,10 @@ export type NavIconName =
 
 const iconMap = {
   dashboard: IconDashboard,
+  reports: IconReport,
   products: IconPackage,
   inventory: IconBoxes,
+  warehouses: IconWarehouse,
   inbound: IconArrowDown,
   outbound: IconArrowUp,
   partners: IconBuilding,

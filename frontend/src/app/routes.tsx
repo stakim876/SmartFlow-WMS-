@@ -6,6 +6,7 @@ import { DashboardPage } from '@/features/dashboard/pages/DashboardPage';
 import { LoginPage } from '@/features/auth/pages/LoginPage';
 import { ProductsPage } from '@/features/products/pages/ProductsPage';
 import { InventoryPage } from '@/features/inventory/pages/InventoryPage';
+import { WarehousesPage } from '@/features/warehouses/pages/WarehousesPage';
 import { InboundPage } from '@/features/inbound/pages/InboundPage';
 import { OutboundPage } from '@/features/outbound/pages/OutboundPage';
 import { PartnersPage } from '@/features/partners/pages/PartnersPage';
@@ -14,6 +15,7 @@ import { UsersPage } from '@/features/users/pages/UsersPage';
 import { ProfilePage } from '@/features/auth/pages/ProfilePage';
 import { NoticesPage } from '@/features/notices/pages/NoticesPage';
 import { ShopIntegrationPage } from '@/features/shop-integration/pages/ShopIntegrationPage';
+import { ReportsPage } from '@/features/reports/pages/ReportsPage';
 import { useAuthStore } from '@/features/auth/stores/authStore';
 
 function GuestRoute({ children }: { children: React.ReactNode }) {
@@ -44,8 +46,10 @@ export const router = createBrowserRouter([
         children: [
           { index: true, element: <Navigate to="/dashboard" replace /> },
           { path: 'dashboard', element: <DashboardPage /> },
+          { path: 'reports', element: <ReportsPage /> },
           { path: 'products', element: <ProductsPage /> },
           { path: 'inventory', element: <InventoryPage /> },
+          { path: 'warehouses', element: <WarehousesPage /> },
           { path: 'inbound', element: <InboundPage /> },
           { path: 'outbound', element: <OutboundPage /> },
           { path: 'partners', element: <PartnersPage /> },

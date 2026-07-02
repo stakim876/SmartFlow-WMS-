@@ -1,0 +1,68 @@
+.section {
+  margin-bottom: 2rem;
+}
+
+.sectionTitle {
+  margin: 0 0 1rem;
+  font-size: 1rem;
+  font-weight: 600;
+}
+
+.locationHeader {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  margin-bottom: 1rem;
+}
+
+.locationHeader .sectionTitle {
+  margin-bottom: 0;
+}
+
+.hint {
+  margin: 0;
+  padding: 1.25rem;
+  border: 1px dashed var(--color-border);
+  border-radius: var(--radius-lg);
+  color: var(--color-text-muted);
+  font-size: 0.875rem;
+}
+
+.clickableRow {
+  cursor: pointer;
+}
+
+.selectedRow {
+  cursor: pointer;
+  background: color-mix(in srgb, var(--color-primary) 8%, transparent);
+}
+
+.badgeActive,
+.badgeInactive {
+  display: inline-flex;
+  padding: 0.125rem 0.5rem;
+  border-radius: 999px;
+  font-size: 0.75rem;
+  font-weight: 500;
+}
+
+.badgeActive {
+  background: #ecfdf5;
+  color: #047857;
+}
+
+.badgeInactive {
+  background: #f3f4f6;
+  color: #6b7280;
+}
+
+:global(.dark) .badgeActive {
+  background: rgba(16, 185, 129, 0.15);
+  color: #6ee7b7;
+}
+
+:global(.dark) .badgeInactive {
+  background: rgba(107, 114, 128, 0.2);
+  color: #d1d5db;
+}

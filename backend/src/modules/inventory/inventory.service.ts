@@ -17,6 +17,8 @@ export const movementListQuerySchema = z.object({
   limit: z.coerce.number().int().positive().optional(),
   productId: z.string().uuid().optional(),
   type: z.nativeEnum(MovementType).optional(),
+  from: z.string().optional(),
+  to: z.string().optional(),
 });
 
 export const adjustInventorySchema = z.object({
@@ -55,6 +57,8 @@ function toMovementResponse(movement: {
   referenceId: string | null;
   note: string | null;
   createdAt: Date;
+  createdById?: string | null;
+  createdByName?: string | null;
   product: { id: string; sku: string; name: string };
   location: {
     id: string;
@@ -73,6 +77,8 @@ function toMovementResponse(movement: {
     referenceId: movement.referenceId,
     note: movement.note,
     createdAt: movement.createdAt,
+    createdById: movement.createdById ?? null,
+    createdByName: movement.createdByName ?? null,
     product: movement.product,
     location: movement.location,
   };
@@ -104,15 +110,36 @@ export const inventoryService = {
 
   async listMovements(query: z.infer<typeof movementListQuerySchema>) {
     const { page, limit, skip } = getPagination(query);
+    const from = query.from ? new Date(query.from) : undefined;
+    const to = query.to ? new Date(`${query.to}T23:59:59.999`) : undefined;
     const [items, total] = await inventoryRepository.findMovements({
       skip,
       take: limit,
       productId: query.productId,
       type: query.type,
+      from,
+      to,
     });
 
+    const actorIds = [
+      ...new Set(items.map((item) => item.createdById).filter((id): id is string => Boolean(id))),
+    ];
+    const actors =
+      actorIds.length > 0
+        ? await prisma.user.findMany({
+            where: { id: { in: actorIds } },
+            select: { id: true, name: true },
+          })
+        : [];
+    const actorMap = new Map(actors.map((actor) => [actor.id, actor.name]));
+
     return {
-      items: items.map(toMovementResponse),
+      items: items.map((item) =>
+        toMovementResponse({
+          ...item,
+          createdByName: item.createdById ? actorMap.get(item.createdById) ?? null : null,
+        }),
+      ),
       meta: buildPaginationMeta(total, page, limit),
     };
   },

@@ -176,6 +176,16 @@ export const inboundService = {
         });
       }
 
+      if (order.purchaseOrderId) {
+        await tx.purchaseOrder.update({
+          where: { id: order.purchaseOrderId },
+          data: {
+            status: OrderStatus.COMPLETED,
+            completedAt: new Date(),
+          },
+        });
+      }
+
       return tx.inboundOrder.update({
         where: { id },
         data: {

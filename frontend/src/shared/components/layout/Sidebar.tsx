@@ -19,13 +19,17 @@ interface NavSection {
 const navSections: NavSection[] = [
   {
     title: NAV_SECTIONS.overview,
-    items: [{ to: '/dashboard', label: NAV.dashboard, icon: 'dashboard' }],
+    items: [
+      { to: '/dashboard', label: NAV.dashboard, icon: 'dashboard' },
+      { to: '/reports', label: NAV.reports, icon: 'reports' },
+    ],
   },
   {
     title: NAV_SECTIONS.logistics,
     items: [
       { to: '/products', label: NAV.products, icon: 'products' },
       { to: '/inventory', label: NAV.inventory, icon: 'inventory' },
+      { to: '/warehouses', label: NAV.warehouses, icon: 'warehouses' },
       { to: '/inbound', label: NAV.inbound, icon: 'inbound' },
       { to: '/outbound', label: NAV.outbound, icon: 'outbound' },
     ],

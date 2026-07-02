@@ -19,6 +19,11 @@ router.post(
   purchaseOrderController.create,
 );
 router.post('/:id/approve', authorize('ADMIN'), purchaseOrderController.approve);
+router.post(
+  '/:id/convert-to-inbound',
+  authorize('ADMIN', 'STAFF'),
+  purchaseOrderController.convertToInbound,
+);
 router.post('/:id/complete', authorize('ADMIN', 'STAFF'), purchaseOrderController.complete);
 router.post('/:id/cancel', authorize('ADMIN', 'STAFF'), purchaseOrderController.cancel);
 

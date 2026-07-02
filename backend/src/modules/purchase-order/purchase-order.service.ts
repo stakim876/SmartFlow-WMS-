@@ -4,6 +4,7 @@ import { prisma } from '../../core/config/database';
 import { AppError } from '../../core/middleware/errorHandler';
 import { generateOrderNo } from '../../core/utils/orderNo';
 import { buildPaginationMeta, getPagination } from '../../core/utils/pagination';
+import { inboundRepository } from '../inbound/inbound.repository';
 import { purchaseOrderRepository } from './purchase-order.repository';
 
 export const purchaseOrderListQuerySchema = z.object({
@@ -57,6 +58,7 @@ function toPurchaseOrderResponse(order: PurchaseOrderWithRelations) {
     partner: order.partner,
     items,
     totalAmount: items.reduce((sum, item) => sum + item.lineAmount, 0),
+    inboundOrder: order.inboundOrder ?? null,
   };
 }
 
@@ -135,6 +137,13 @@ export const purchaseOrderService = {
     if (order.status !== OrderStatus.APPROVED) {
       throw new AppError(400, '승인 완료된 전표만 완료 처리할 수 있습니다.', 'INVALID_STATUS');
     }
+    if (!order.inboundOrder || order.inboundOrder.status !== OrderStatus.COMPLETED) {
+      throw new AppError(
+        400,
+        '연결된 입고 전표가 완료된 후에만 발주를 완료할 수 있습니다.',
+        'INBOUND_NOT_COMPLETED',
+      );
+    }
 
     const updated = await purchaseOrderRepository.update(id, {
       status: OrderStatus.COMPLETED,
@@ -144,6 +153,43 @@ export const purchaseOrderService = {
     return toPurchaseOrderResponse(updated);
   },
 
+  async convertToInbound(id: string) {
+    const order = await purchaseOrderRepository.findById(id);
+    if (!order) {
+      throw new AppError(404, '발주 전표를 찾을 수 없습니다.', 'PURCHASE_ORDER_NOT_FOUND');
+    }
+    if (order.status !== OrderStatus.APPROVED) {
+      throw new AppError(400, '승인 완료된 발주만 입고 전환할 수 있습니다.', 'INVALID_STATUS');
+    }
+    if (order.inboundOrder) {
+      throw new AppError(409, '이미 입고 전표가 생성된 발주입니다.', 'INBOUND_ALREADY_EXISTS');
+    }
+
+    const inbound = await inboundRepository.create({
+      orderNo: generateOrderNo('IN'),
+      status: OrderStatus.PENDING,
+      note: `발주 ${order.orderNo} 연동`,
+      partner: { connect: { id: order.partnerId } },
+      purchaseOrder: { connect: { id: order.id } },
+      items: {
+        create: order.items.map((item) => ({
+          productId: item.productId,
+          quantity: item.quantity,
+        })),
+      },
+    });
+
+    const refreshed = await purchaseOrderRepository.findById(id);
+    return {
+      purchaseOrder: toPurchaseOrderResponse(refreshed!),
+      inbound: {
+        id: inbound.id,
+        orderNo: inbound.orderNo,
+        status: inbound.status,
+      },
+    };
+  },
+
   async cancel(id: string) {
     const order = await purchaseOrderRepository.findById(id);
     if (!order) {
@@ -151,6 +197,17 @@ export const purchaseOrderService = {
     }
     if (order.status !== OrderStatus.PENDING && order.status !== OrderStatus.APPROVED) {
       throw new AppError(400, '취소할 수 없는 상태입니다.', 'INVALID_STATUS');
+    }
+    if (
+      order.inboundOrder &&
+      order.inboundOrder.status !== OrderStatus.CANCELLED &&
+      order.inboundOrder.status !== OrderStatus.COMPLETED
+    ) {
+      throw new AppError(
+        400,
+        '연결된 입고 전표를 먼저 처리해주세요.',
+        'INBOUND_IN_PROGRESS',
+      );
     }
 
     const updated = await purchaseOrderRepository.update(id, {

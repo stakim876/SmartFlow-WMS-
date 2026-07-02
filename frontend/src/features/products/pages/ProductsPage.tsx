@@ -14,10 +14,12 @@ import { ProductFormModal } from '@/features/products/components/ProductFormModa
 import { ProductImportModal } from '@/features/products/components/ProductImportModal';
 import { exportProductsExcel } from '@/shared/api/export';
 import { COMMON, ERRORS, NAV, PRODUCTS, ADVANCED } from '@/shared/constants/labels';
+import { useCanWrite } from '@/shared/hooks/useCanWrite';
 import tableStyles from '@/shared/styles/table.shared.module.css';
 import styles from './ProductsPage.module.css';
 
 export function ProductsPage() {
+  const canWrite = useCanWrite();
   const [products, setProducts] = useState<Product[]>([]);
   const [search, setSearch] = useState('');
   const [loading, setLoading] = useState(true);
@@ -104,17 +106,21 @@ export function ProductsPage() {
             <Button variant="secondary" size="sm" onClick={handleExport}>
               {ADVANCED.exportExcel}
             </Button>
-            <Button variant="secondary" size="sm" onClick={() => setImportOpen(true)}>
-              {ADVANCED.importExcel}
-            </Button>
-            <Button
-              onClick={() => {
-                setEditingProduct(null);
-                setModalOpen(true);
-              }}
-            >
-              {PRODUCTS.add}
-            </Button>
+            {canWrite && (
+              <>
+                <Button variant="secondary" size="sm" onClick={() => setImportOpen(true)}>
+                  {ADVANCED.importExcel}
+                </Button>
+                <Button
+                  onClick={() => {
+                    setEditingProduct(null);
+                    setModalOpen(true);
+                  }}
+                >
+                  {PRODUCTS.add}
+                </Button>
+              </>
+            )}
           </div>
         }
       />
@@ -209,25 +215,29 @@ export function ProductsPage() {
                       </span>
                     </td>
                     <td>
-                      <div className={tableStyles.actions}>
-                        <Button
-                          variant="ghost"
-                          size="sm"
-                          onClick={() => {
-                            setEditingProduct(product);
-                            setModalOpen(true);
-                          }}
-                        >
-                          {COMMON.edit}
-                        </Button>
-                        <Button
-                          variant="ghostDanger"
-                          size="sm"
-                          onClick={() => handleDelete(product)}
-                        >
-                          {COMMON.delete}
-                        </Button>
-                      </div>
+                      {canWrite ? (
+                        <div className={tableStyles.actions}>
+                          <Button
+                            variant="ghost"
+                            size="sm"
+                            onClick={() => {
+                              setEditingProduct(product);
+                              setModalOpen(true);
+                            }}
+                          >
+                            {COMMON.edit}
+                          </Button>
+                          <Button
+                            variant="ghostDanger"
+                            size="sm"
+                            onClick={() => handleDelete(product)}
+                          >
+                            {COMMON.delete}
+                          </Button>
+                        </div>
+                      ) : (
+                        '-'
+                      )}
                     </td>
                   </tr>
                 ))

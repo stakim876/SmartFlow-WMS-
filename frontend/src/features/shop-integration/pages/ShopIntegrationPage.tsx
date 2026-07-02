@@ -15,6 +15,7 @@ import {
   syncShopProducts,
 } from '@/features/shop-integration/api/shopIntegration';
 import { COMMON, ERRORS, ORDER_STATUS, SHOP_INTEGRATION } from '@/shared/constants/labels';
+import { useCanWrite } from '@/shared/hooks/useCanWrite';
 import tableStyles from '@/shared/styles/table.shared.module.css';
 import styles from './ShopIntegrationPage.module.css';
 
@@ -25,6 +26,7 @@ function StatusBadge({ ok, label }: { ok: boolean; label: string }) {
 }
 
 export function ShopIntegrationPage() {
+  const canWrite = useCanWrite();
   const [status, setStatus] = useState<ShopIntegrationStatus | null>(null);
   const [mappings, setMappings] = useState<ShopProductMapping[]>([]);
   const [orders, setOrders] = useState<ShopOrderSync[]>([]);
@@ -147,28 +149,30 @@ export function ShopIntegrationPage() {
         {!status?.configured && (
           <p className={styles.hint}>{SHOP_INTEGRATION.configHint}</p>
         )}
-        <div className={styles.actions}>
-          <Button
-            disabled={!!actionLoading}
-            onClick={() => runAction('sync', syncShopProducts)}
-          >
-            {actionLoading === 'sync' ? COMMON.loading : SHOP_INTEGRATION.syncProducts}
-          </Button>
-          <Button
-            variant="secondary"
-            disabled={!!actionLoading}
-            onClick={() => runAction('stock', pushShopStock)}
-          >
-            {actionLoading === 'stock' ? COMMON.loading : SHOP_INTEGRATION.pushStock}
-          </Button>
-          <Button
-            variant="secondary"
-            disabled={!!actionLoading}
-            onClick={() => runAction('orders', pullShopOrders)}
-          >
-            {actionLoading === 'orders' ? COMMON.loading : SHOP_INTEGRATION.pullOrders}
-          </Button>
-        </div>
+        {canWrite && (
+          <div className={styles.actions}>
+            <Button
+              disabled={!!actionLoading}
+              onClick={() => runAction('sync', syncShopProducts)}
+            >
+              {actionLoading === 'sync' ? COMMON.loading : SHOP_INTEGRATION.syncProducts}
+            </Button>
+            <Button
+              variant="secondary"
+              disabled={!!actionLoading}
+              onClick={() => runAction('stock', pushShopStock)}
+            >
+              {actionLoading === 'stock' ? COMMON.loading : SHOP_INTEGRATION.pushStock}
+            </Button>
+            <Button
+              variant="secondary"
+              disabled={!!actionLoading}
+              onClick={() => runAction('orders', pullShopOrders)}
+            >
+              {actionLoading === 'orders' ? COMMON.loading : SHOP_INTEGRATION.pullOrders}
+            </Button>
+          </div>
+        )}
       </section>
 
       <section className={styles.card}>
@@ -239,7 +243,7 @@ export function ShopIntegrationPage() {
                         <span className={styles.fulfilled}>
                           {new Date(row.fulfilledAt).toLocaleString('ko-KR')}
                         </span>
-                      ) : (
+                      ) : canWrite ? (
                         <div className={styles.fulfillRow}>
                           <input
                             className={styles.input}
@@ -279,6 +283,8 @@ export function ShopIntegrationPage() {
                               : SHOP_INTEGRATION.fulfillSubmit}
                           </Button>
                         </div>
+                      ) : (
+                        '-'
                       )}
                     </td>
                   </tr>

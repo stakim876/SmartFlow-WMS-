@@ -3,6 +3,7 @@ export const NAV = {
   dashboard: '대시보드',
   products: '상품관리',
   inventory: '재고관리',
+  warehouses: '창고·로케이션',
   inbound: '입고관리',
   outbound: '출고관리',
   partners: '거래처관리',
@@ -10,6 +11,7 @@ export const NAV = {
   users: '직원관리',
   notices: '공지사항',
   shopIntegration: '쇼핑몰 연동',
+  reports: '리포트',
 } as const;
 
 export const NAV_SECTIONS = {
@@ -48,6 +50,7 @@ export const COMMON = {
   all: '전체',
   name: '상품명',
   userName: '이름',
+  actor: '작업자',
   partnerName: '거래처명',
   partner: '거래처',
   partnerCode: '거래처 코드',
@@ -66,6 +69,9 @@ export const COMMON = {
   login: '로그인',
   warehouse: '창고',
   location: '로케이션',
+  warehouseCode: '창고 코드',
+  locationCode: '로케이션 코드',
+  locationName: '로케이션명',
   beforeAfter: '변동 전 → 후',
 } as const;
 
@@ -200,6 +206,7 @@ export const INBOUND = {
   selectLocation: '로케이션 선택',
   locationAssigned: '로케이션 지정됨',
   saveFailed: '입고 등록에 실패했습니다.',
+  allStatuses: '전체 상태',
 } as const;
 
 export const OUTBOUND = {
@@ -217,6 +224,7 @@ export const OUTBOUND = {
   selectLocation: '출고 로케이션 선택',
   locationAssigned: '로케이션 지정됨',
   saveFailed: '출고 등록에 실패했습니다.',
+  allStatuses: '전체 상태',
 } as const;
 
 export const PARTNER_TYPE: Record<string, string> = {
@@ -224,6 +232,27 @@ export const PARTNER_TYPE: Record<string, string> = {
   CUSTOMER: '고객사',
   BOTH: '공급/고객',
 };
+
+export const WAREHOUSES = {
+  description: '창고와 보관 로케이션을 등록·관리합니다.',
+  warehouseSection: '창고 목록',
+  locationSection: (name: string) => `${name} 로케이션`,
+  locationsTitle: '로케이션',
+  addWarehouse: '창고 등록',
+  addLocation: '로케이션 등록',
+  searchPlaceholder: '코드 또는 창고명 검색',
+  empty: '등록된 창고가 없습니다.',
+  locationsEmpty: '등록된 로케이션이 없습니다.',
+  selectWarehouse: '창고를 선택하면 로케이션을 관리할 수 있습니다.',
+  deleteWarehouseConfirm: (name: string) => `"${name}" 창고를 비활성화하시겠습니까?`,
+  deleteLocationConfirm: (code: string) => `"${code}" 로케이션을 삭제하시겠습니까?`,
+  editWarehouseTitle: '창고 수정',
+  addWarehouseTitle: '창고 등록',
+  editLocationTitle: '로케이션 수정',
+  addLocationTitle: '로케이션 등록',
+  locationCount: '로케이션 수',
+  inventoryLinked: '재고 연결',
+} as const;
 
 export const PARTNERS = {
   description: (total: number) => `총 ${total}개 거래처`,
@@ -237,7 +266,7 @@ export const PARTNERS = {
 } as const;
 
 export const PURCHASE_ORDERS = {
-  description: '발주 등록 · 승인 · 완료',
+  description: '발주 등록 · 승인 · 입고 전환',
   register: '발주 등록',
   empty: '등록된 발주 전표가 없습니다.',
   formTitle: '발주 등록',
@@ -249,12 +278,28 @@ export const PURCHASE_ORDERS = {
   unitPrice: '단가',
   totalAmount: '발주 금액',
   saveFailed: '발주 등록에 실패했습니다.',
+  convertToInbound: '입고 전환',
+  inboundOrder: '입고 전표',
+  allStatuses: '전체 상태',
 } as const;
 
 export const ROLE_LABELS: Record<string, string> = {
   ADMIN: '관리자',
   STAFF: '직원',
+  VIEWER: '조회 전용',
 };
+
+export const REPORTS = {
+  description: '기간별 입고·출고·재고 이력을 Excel로 내려받습니다.',
+  period: '조회 기간',
+  from: '시작일',
+  to: '종료일',
+  inbound: '입고 내역 Excel',
+  outbound: '출고 내역 Excel',
+  movements: '재고 이력 Excel',
+  inventory: '재고 현황 Excel',
+  hint: '기간을 비우면 전체 데이터를 내려받습니다.',
+} as const;
 
 export const USERS = {
   description: (total: number) => `총 ${total}명의 직원`,

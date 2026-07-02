@@ -32,7 +32,7 @@ npm run dev
 
 | 서비스 | URL |
 |--------|-----|
-| **React (메인)** | http://localhost:5173 |
+| **React (메인)** | http://localhost:5175 |
 | **API** | http://localhost:4000/api |
 | **Swagger** | http://localhost:4000/api-docs |
 

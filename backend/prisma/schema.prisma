@@ -183,6 +183,7 @@ model PurchaseOrder {
   completedAt DateTime?           @map("completed_at")
   partner     Partner             @relation(fields: [partnerId], references: [id])
   items       PurchaseOrderItem[]
+  inboundOrder InboundOrder?
   createdAt   DateTime            @default(now()) @map("created_at")
   updatedAt   DateTime            @updatedAt @map("updated_at")
 
@@ -206,16 +207,18 @@ model PurchaseOrderItem {
 }
 
 model InboundOrder {
-  id          String        @id @default(uuid())
-  orderNo     String        @unique @map("order_no")
-  partnerId   String?       @map("partner_id")
-  status      OrderStatus   @default(DRAFT)
-  note        String?
-  requestedAt DateTime      @default(now()) @map("requested_at")
-  approvedAt  DateTime?     @map("approved_at")
-  completedAt DateTime?     @map("completed_at")
-  partner     Partner?      @relation(fields: [partnerId], references: [id])
-  items       InboundItem[]
+  id              String        @id @default(uuid())
+  orderNo         String        @unique @map("order_no")
+  partnerId       String?       @map("partner_id")
+  purchaseOrderId String?       @unique @map("purchase_order_id")
+  status          OrderStatus   @default(DRAFT)
+  note            String?
+  requestedAt     DateTime      @default(now()) @map("requested_at")
+  approvedAt      DateTime?     @map("approved_at")
+  completedAt     DateTime?     @map("completed_at")
+  partner         Partner?      @relation(fields: [partnerId], references: [id])
+  purchaseOrder   PurchaseOrder? @relation(fields: [purchaseOrderId], references: [id])
+  items           InboundItem[]
   createdAt   DateTime      @default(now()) @map("created_at")
   updatedAt   DateTime      @updatedAt @map("updated_at")
 

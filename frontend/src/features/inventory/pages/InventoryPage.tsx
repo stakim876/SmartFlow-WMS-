@@ -20,6 +20,7 @@ import { TransferInventoryModal } from '@/features/inventory/components/Transfer
 import { MovementTypeBadge } from '@/features/inventory/components/MovementTypeBadge';
 import { exportInventoryExcel, exportInventoryPdf, exportMovementsExcel } from '@/shared/api/export';
 import { COMMON, ERRORS, FORMAT, INVENTORY, MOVEMENT_TYPE, NAV, PRODUCTS, ADVANCED } from '@/shared/constants/labels';
+import { useCanWrite } from '@/shared/hooks/useCanWrite';
 import tableStyles from '@/shared/styles/table.shared.module.css';
 import styles from './InventoryPage.module.css';
 
@@ -34,6 +35,7 @@ const movementTypeOptions: { value: '' | MovementType; label: string }[] = [
 ];
 
 export function InventoryPage() {
+  const canWrite = useCanWrite();
   const [tab, setTab] = useState<Tab>('stock');
   const [items, setItems] = useState<InventoryItem[]>([]);
   const [movements, setMovements] = useState<InventoryMovement[]>([]);
@@ -270,24 +272,28 @@ export function InventoryPage() {
                     <td>{item.product.unit}</td>
                     <td>{new Date(item.updatedAt).toLocaleString('ko-KR')}</td>
                     <td>
-                      <div className={tableStyles.actions}>
-                        <Button
-                          variant="ghost"
-                          size="sm"
-                          onClick={() => setAdjustTarget(item)}
-                        >
-                          {INVENTORY.adjust}
-                        </Button>
-                        {item.quantity > 0 && (
+                      {canWrite ? (
+                        <div className={tableStyles.actions}>
                           <Button
                             variant="ghost"
                             size="sm"
-                            onClick={() => setTransferTarget(item)}
+                            onClick={() => setAdjustTarget(item)}
                           >
-                            {INVENTORY.transfer}
+                            {INVENTORY.adjust}
                           </Button>
-                        )}
-                      </div>
+                          {item.quantity > 0 && (
+                            <Button
+                              variant="ghost"
+                              size="sm"
+                              onClick={() => setTransferTarget(item)}
+                            >
+                              {INVENTORY.transfer}
+                            </Button>
+                          )}
+                        </div>
+                      ) : (
+                        '-'
+                      )}
                     </td>
                   </tr>
                 ))
@@ -306,13 +312,14 @@ export function InventoryPage() {
                 <th>{COMMON.location}</th>
                 <th>{COMMON.quantity}</th>
                 <th>{COMMON.beforeAfter}</th>
+                <th>{COMMON.actor}</th>
                 <th>{COMMON.note}</th>
               </tr>
             </thead>
             <tbody>
               {movements.length === 0 ? (
                 <tr>
-                  <td colSpan={7} className={tableStyles.empty}>
+                  <td colSpan={8} className={tableStyles.empty}>
                     {INVENTORY.emptyMovements}
                   </td>
                 </tr>
@@ -333,6 +340,7 @@ export function InventoryPage() {
                     </td>
                     <td>{m.quantity.toLocaleString()}</td>
                     <td>{FORMAT.beforeAfter(m.beforeQty, m.afterQty)}</td>
+                    <td>{m.createdByName ?? '-'}</td>
                     <td>{m.note ?? '-'}</td>
                   </tr>
                 ))

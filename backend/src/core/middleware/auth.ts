@@ -53,3 +53,14 @@ export function authorize(...roles: string[]) {
     next();
   };
 }
+
+export const READ_ROLES = ['ADMIN', 'STAFF', 'VIEWER'] as const;
+export const WRITE_ROLES = ['ADMIN', 'STAFF'] as const;
+
+export function authorizeWrite() {
+  return authorize(...WRITE_ROLES);
+}
+
+export function authorizeRead() {
+  return authorize(...READ_ROLES);
+}

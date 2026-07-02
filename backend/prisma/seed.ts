@@ -16,6 +16,12 @@ async function main() {
     create: { name: 'STAFF', description: '일반 직원' },
   });
 
+  const viewerRole = await prisma.role.upsert({
+    where: { name: 'VIEWER' },
+    update: {},
+    create: { name: 'VIEWER', description: '조회 전용' },
+  });
+
   const adminPassword = await bcrypt.hash('admin1234', 10);
   const adminUser = await prisma.user.upsert({
     where: { email: 'admin@smartflow.com' },
@@ -185,7 +191,7 @@ async function main() {
 
   console.log('Seed completed:', {
     adminUser: adminUser.email,
-    roles: [adminRole.name, staffRole.name],
+    roles: [adminRole.name, staffRole.name, viewerRole.name],
     warehouse: warehouse.code,
     products: products.length,
   });

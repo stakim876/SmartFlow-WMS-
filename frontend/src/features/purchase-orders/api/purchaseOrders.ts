@@ -24,6 +24,7 @@ export interface PurchaseOrder {
   partner: { id: string; code: string; name: string };
   items: PurchaseOrderItem[];
   totalAmount: number;
+  inboundOrder: { id: string; orderNo: string; status: OrderStatus } | null;
 }
 
 export interface CreatePurchaseOrderItem {
@@ -59,6 +60,16 @@ export async function completePurchaseOrder(id: string) {
   const { data } = await apiClient.post<ApiResponse<PurchaseOrder>>(
     `/purchase-orders/${id}/complete`,
   );
+  return data.data!;
+}
+
+export async function convertPurchaseOrderToInbound(id: string) {
+  const { data } = await apiClient.post<
+    ApiResponse<{
+      purchaseOrder: PurchaseOrder;
+      inbound: { id: string; orderNo: string; status: OrderStatus };
+    }>
+  >(`/purchase-orders/${id}/convert-to-inbound`);
   return data.data!;
 }
 

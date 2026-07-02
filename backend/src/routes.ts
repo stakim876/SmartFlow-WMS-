@@ -15,6 +15,7 @@ import exportRoutes from './modules/export/export.routes';
 import importRoutes from './modules/import/import.routes';
 import notificationRoutes from './modules/notification/notification.routes';
 import shopIntegrationRoutes from './modules/shop-integration/shop-integration.routes';
+import warehouseRoutes, { locationRouter } from './modules/warehouse/warehouse.routes';
 
 const router = Router();
 
@@ -34,5 +35,7 @@ router.use('/export', exportRoutes);
 router.use('/import', importRoutes);
 router.use('/notifications', notificationRoutes);
 router.use('/shop-integration', shopIntegrationRoutes);
+router.use('/warehouses', warehouseRoutes);
+router.use('/locations', locationRouter);
 
 export default router;

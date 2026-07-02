@@ -14,23 +14,31 @@ import { OutboundFormModal } from '@/features/outbound/components/OutboundFormMo
 import { CompleteOutboundModal } from '@/features/outbound/components/CompleteOutboundModal';
 import { OrderStatusBadge } from '@/features/inbound/components/OrderStatusBadge';
 import { useAuthStore } from '@/features/auth/stores/authStore';
-import { COMMON, ERRORS, NAV, OUTBOUND } from '@/shared/constants/labels';
+import { useCanWrite } from '@/shared/hooks/useCanWrite';
+import { COMMON, ERRORS, NAV, ORDER_STATUS, OUTBOUND } from '@/shared/constants/labels';
 import tableStyles from '@/shared/styles/table.shared.module.css';
+import styles from './OutboundPage.module.css';
+
+const STATUS_OPTIONS = ['', 'PENDING', 'APPROVED', 'COMPLETED', 'CANCELLED'] as const;
 
 export function OutboundPage() {
   const user = useAuthStore((s) => s.user);
   const isAdmin = user?.role.name === 'ADMIN';
+  const canWrite = useCanWrite();
   const [orders, setOrders] = useState<OutboundOrder[]>([]);
+  const [status, setStatus] = useState<(typeof STATUS_OPTIONS)[number]>('');
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState('');
   const [formOpen, setFormOpen] = useState(false);
   const [completeTarget, setCompleteTarget] = useState<OutboundOrder | null>(null);
 
-  const load = async () => {
+  const load = async (selectedStatus: (typeof STATUS_OPTIONS)[number] = status) => {
     setLoading(true);
     setError('');
     try {
-      const result = await fetchOutboundOrders();
+      const result = await fetchOutboundOrders({
+        status: selectedStatus || undefined,
+      });
       setOrders(result.items);
     } catch {
       setError(ERRORS.loadFailed);
@@ -42,6 +50,11 @@ export function OutboundPage() {
   useEffect(() => {
     load();
   }, []);
+
+  const handleFilter = (e: React.FormEvent) => {
+    e.preventDefault();
+    load(status);
+  };
 
   const handleAction = async (action: () => Promise<unknown>) => {
     try {
@@ -57,8 +70,27 @@ export function OutboundPage() {
       <PageHeader
         title={NAV.outbound}
         description={OUTBOUND.description}
-        action={<Button onClick={() => setFormOpen(true)}>{OUTBOUND.register}</Button>}
+        action={
+          canWrite ? <Button onClick={() => setFormOpen(true)}>{OUTBOUND.register}</Button> : undefined
+        }
       />
+
+      <form onSubmit={handleFilter} className={tableStyles.searchBar}>
+        <select
+          value={status}
+          onChange={(e) => setStatus(e.target.value as (typeof STATUS_OPTIONS)[number])}
+          className={styles.statusSelect}
+        >
+          {STATUS_OPTIONS.map((value) => (
+            <option key={value || 'all'} value={value}>
+              {value ? ORDER_STATUS[value] : OUTBOUND.allStatuses}
+            </option>
+          ))}
+        </select>
+        <Button type="submit" variant="secondary">
+          {COMMON.filter}
+        </Button>
+      </form>
 
       {error && <div className={tableStyles.error}>{error}</div>}
 
@@ -95,7 +127,8 @@ export function OutboundPage() {
                     </td>
                     <td>{new Date(order.createdAt).toLocaleDateString('ko-KR')}</td>
                     <td>
-                      <div className={tableStyles.actions}>
+                      {canWrite ? (
+                        <div className={tableStyles.actions}>
                         {order.status === 'PENDING' && isAdmin && (
                           <Button
                             variant="ghost"
@@ -130,6 +163,9 @@ export function OutboundPage() {
                           </Button>
                         )}
                       </div>
+                      ) : (
+                        '-'
+                      )}
                     </td>
                   </tr>
                 ))
@@ -139,7 +175,7 @@ export function OutboundPage() {
         </div>
       )}
 
-      {formOpen && (
+      {formOpen && canWrite && (
         <OutboundFormModal
           onClose={() => setFormOpen(false)}
           onSave={async (input) => {

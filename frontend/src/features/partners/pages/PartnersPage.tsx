@@ -13,9 +13,11 @@ import {
 } from '@/features/partners/api/partners';
 import { PartnerFormModal } from '@/features/partners/components/PartnerFormModal';
 import { COMMON, ERRORS, NAV, PARTNER_TYPE, PARTNERS } from '@/shared/constants/labels';
+import { useCanWrite } from '@/shared/hooks/useCanWrite';
 import tableStyles from '@/shared/styles/table.shared.module.css';
 import styles from './PartnersPage.module.css';
 export function PartnersPage() {
+  const canWrite = useCanWrite();
   const [partners, setPartners] = useState<Partner[]>([]);
   const [search, setSearch] = useState('');
   const [type, setType] = useState<'' | PartnerType>('');
@@ -86,14 +88,16 @@ export function PartnersPage() {
         title={NAV.partners}
         description={PARTNERS.description(meta.total)}
         action={
-          <Button
-            onClick={() => {
-              setEditingPartner(null);
-              setModalOpen(true);
-            }}
-          >
-            {PARTNERS.add}
-          </Button>
+          canWrite ? (
+            <Button
+              onClick={() => {
+                setEditingPartner(null);
+                setModalOpen(true);
+              }}
+            >
+              {PARTNERS.add}
+            </Button>
+          ) : undefined
         }
       />
 
@@ -168,26 +172,31 @@ export function PartnersPage() {
                       </span>
                     </td>
                     <td>
-                      <div className={tableStyles.actions}>                        <Button
-                          variant="ghost"
-                          size="sm"
-                          onClick={() => {
-                            setEditingPartner(partner);
-                            setModalOpen(true);
-                          }}
-                        >
-                          {COMMON.edit}
-                        </Button>
-                        {partner.isActive && (
+                      {canWrite ? (
+                        <div className={tableStyles.actions}>
                           <Button
-                            variant="ghostDanger"
+                            variant="ghost"
                             size="sm"
-                            onClick={() => handleDelete(partner)}
+                            onClick={() => {
+                              setEditingPartner(partner);
+                              setModalOpen(true);
+                            }}
                           >
-                            {COMMON.delete}
+                            {COMMON.edit}
                           </Button>
-                        )}
-                      </div>
+                          {partner.isActive && (
+                            <Button
+                              variant="ghostDanger"
+                              size="sm"
+                              onClick={() => handleDelete(partner)}
+                            >
+                              {COMMON.delete}
+                            </Button>
+                          )}
+                        </div>
+                      ) : (
+                        '-'
+                      )}
                     </td>
                   </tr>
                 ))

@@ -3,6 +3,7 @@ import { prisma } from '../../core/config/database';
 
 const orderInclude = {
   partner: { select: { id: true, code: true, name: true } },
+  inboundOrder: { select: { id: true, orderNo: true, status: true } },
   items: {
     include: {
       product: { select: { id: true, sku: true, name: true, unit: true } },
