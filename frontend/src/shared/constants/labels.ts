@@ -101,6 +101,24 @@ export const AUTH = {
   testAccount: '테스트 계정: admin@smartflow.com / admin1234',
 } as const;
 
+export const PROFILE = {
+  title: '내 계정',
+  description: '프로필 정보와 비밀번호를 관리합니다.',
+  profileSection: '프로필',
+  passwordSection: '비밀번호 변경',
+  currentPassword: '현재 비밀번호',
+  newPassword: '새 비밀번호',
+  confirmPassword: '새 비밀번호 확인',
+  role: '역할',
+  memberSince: '가입일',
+  profileSaved: '프로필이 저장되었습니다.',
+  passwordSaved: '비밀번호가 변경되었습니다.',
+  passwordMismatch: '새 비밀번호가 일치하지 않습니다.',
+  passwordTooShort: '새 비밀번호는 8자 이상이어야 합니다.',
+  saveProfileFailed: '프로필 저장에 실패했습니다.',
+  changePasswordFailed: '비밀번호 변경에 실패했습니다.',
+} as const;
+
 export const THEME = {
   darkMode: '다크 모드',
   lightMode: '라이트 모드',

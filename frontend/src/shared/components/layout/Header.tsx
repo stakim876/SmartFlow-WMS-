@@ -1,10 +1,10 @@
-import { useNavigate } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { useAuthStore } from '@/features/auth/stores/authStore';
 import { logout as logoutApi } from '@/features/auth/api/auth';
 import { Button } from '@/shared/components/common/Button';
 import { ThemeToggle } from '@/shared/components/common/ThemeToggle';
 import { NotificationBell } from '@/shared/components/common/NotificationBell';
-import { COMMON, ROLE_LABELS } from '@/shared/constants/labels';
+import { COMMON, PROFILE, ROLE_LABELS } from '@/shared/constants/labels';
 import styles from './Header.module.css';
 export function Header() {
   const navigate = useNavigate();
@@ -33,12 +33,13 @@ export function Header() {
       <div className={styles.actions}>
         <NotificationBell />
         <ThemeToggle />
-        <div className={styles.userCard}>          <span className={styles.avatar}>{initials}</span>
+        <Link to="/profile" className={styles.userCard} aria-label={PROFILE.title}>
+          <span className={styles.avatar}>{initials}</span>
           <div className={styles.userMeta}>
             <span className={styles.userName}>{user?.name ?? COMMON.userFallback}</span>
             <span className={styles.userRole}>{roleLabel}</span>
           </div>
-        </div>
+        </Link>
         <Button variant="secondary" size="sm" onClick={handleLogout}>
           {COMMON.logout}
         </Button>

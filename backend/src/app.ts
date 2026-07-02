@@ -18,6 +18,14 @@ app.use(
         callback(null, origin ?? env.corsOrigins[0]);
         return;
       }
+      if (
+        env.nodeEnv !== 'production' &&
+        origin &&
+        /^https?:\/\/(localhost|127\.0\.0\.1)(:\d+)?$/.test(origin)
+      ) {
+        callback(null, origin);
+        return;
+      }
       callback(new Error(`CORS blocked for origin: ${origin}`));
     },
     credentials: true,

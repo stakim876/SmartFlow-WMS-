@@ -48,6 +48,14 @@
   border-radius: var(--radius-lg);
   border: 1px solid var(--color-border);
   background: color-mix(in srgb, var(--color-surface) 70%, transparent);
+  text-decoration: none;
+  color: inherit;
+  transition: border-color 0.15s ease, background 0.15s ease;
+}
+
+.userCard:hover {
+  border-color: var(--color-border-strong);
+  background: var(--color-surface);
 }
 
 .avatar {

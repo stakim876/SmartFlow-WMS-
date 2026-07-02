@@ -2,14 +2,14 @@ import { useCallback, useEffect, useState } from 'react';
 
 const THEME_SWITCH_CLASS = 'theme-switching';
 
-function resolveInitialDark() {
+export function resolveInitialDark() {
   const stored = localStorage.getItem('theme');
   if (stored === 'dark') return true;
   if (stored === 'light') return false;
   return window.matchMedia('(prefers-color-scheme: dark)').matches;
 }
 
-function applyThemeClass(isDark: boolean) {
+export function applyThemeClass(isDark: boolean) {
   const root = document.documentElement;
   root.classList.toggle('dark', isDark);
   root.style.colorScheme = isDark ? 'dark' : 'light';

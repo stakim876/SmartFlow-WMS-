@@ -48,3 +48,12 @@ export async function getProfile() {
   const { data } = await apiClient.get<ApiResponse<User>>('/auth/profile');
   return data.data!;
 }
+
+export async function updateProfile(name: string) {
+  const { data } = await apiClient.patch<ApiResponse<User>>('/auth/profile', { name });
+  return data.data!;
+}
+
+export async function changePassword(currentPassword: string, newPassword: string) {
+  await apiClient.patch('/auth/password', { currentPassword, newPassword });
+}

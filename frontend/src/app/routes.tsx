@@ -11,6 +11,7 @@ import { OutboundPage } from '@/features/outbound/pages/OutboundPage';
 import { PartnersPage } from '@/features/partners/pages/PartnersPage';
 import { PurchaseOrdersPage } from '@/features/purchase-orders/pages/PurchaseOrdersPage';
 import { UsersPage } from '@/features/users/pages/UsersPage';
+import { ProfilePage } from '@/features/auth/pages/ProfilePage';
 import { NoticesPage } from '@/features/notices/pages/NoticesPage';
 import { ShopIntegrationPage } from '@/features/shop-integration/pages/ShopIntegrationPage';
 import { useAuthStore } from '@/features/auth/stores/authStore';
@@ -50,6 +51,7 @@ export const router = createBrowserRouter([
           { path: 'partners', element: <PartnersPage /> },
           { path: 'purchase-orders', element: <PurchaseOrdersPage /> },
           { path: 'users', element: <UsersPage /> },
+          { path: 'profile', element: <ProfilePage /> },
           { path: 'notices', element: <NoticesPage /> },
           { path: 'shop-integration', element: <ShopIntegrationPage /> },
         ],

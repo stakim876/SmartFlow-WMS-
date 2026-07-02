@@ -73,7 +73,19 @@ SmartFlow WMS/
 | 거래처관리 | ✅ | ✅ |
 | 발주관리 | ✅ | ✅ |
 | 직원관리 | ✅ | ✅ |
-| 공지/대시보드 | 🔲 | 🔲 |
+| 공지/대시보드 | ✅ | ✅ |
+| my-shop 연동 | ✅ | ✅ |
+
+## 테스트
+
+```bash
+npm test                 # backend + frontend
+npm run test -w backend
+npm run test -w frontend
+```
+
+- Backend: JWT 유틸, 인증 서비스, Health API
+- Frontend: 인증 스토어, 다크모드 훅
 
 ## 스크립트
 
