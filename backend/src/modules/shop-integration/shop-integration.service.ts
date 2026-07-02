@@ -208,7 +208,7 @@ export const shopIntegrationService = {
       const outbound = await outboundRepository.create({
         orderNo: generateOrderNo('OUT'),
         status: OrderStatus.PENDING,
-        note: `my-shop 주문 #${order.id} · ${order.recipient_name} · ${order.address}`,
+        note: `my-shop 주문 #${order.id}, ${order.recipient_name}, ${order.address}`,
         partner: { connect: { id: partner.id } },
         items: {
           create: outboundItems,

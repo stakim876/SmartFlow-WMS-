@@ -17,7 +17,7 @@ export const NAV = {
 export const NAV_SECTIONS = {
   overview: '개요',
   logistics: '물류 운영',
-  trade: '거래 · 발주',
+  trade: '거래/발주',
   system: '시스템',
 } as const;
 
@@ -72,7 +72,7 @@ export const COMMON = {
   warehouseCode: '창고 코드',
   locationCode: '로케이션 코드',
   locationName: '로케이션명',
-  beforeAfter: '변동 전 → 후',
+  beforeAfter: '변동 전/후',
 } as const;
 
 export const ORDER_STATUS: Record<string, string> = {
@@ -192,7 +192,7 @@ export const INVENTORY = {
 } as const;
 
 export const INBOUND = {
-  description: '입고 등록 · 승인 · 완료',
+  description: '입고 등록, 승인, 완료',
   register: '입고 등록',
   empty: '등록된 입고 전표가 없습니다.',
   formTitle: '입고 등록',
@@ -210,7 +210,7 @@ export const INBOUND = {
 } as const;
 
 export const OUTBOUND = {
-  description: '출고 등록 · 승인 · 완료',
+  description: '출고 등록, 승인, 완료',
   register: '출고 등록',
   empty: '등록된 출고 전표가 없습니다.',
   formTitle: '출고 등록',
@@ -266,7 +266,7 @@ export const PARTNERS = {
 } as const;
 
 export const PURCHASE_ORDERS = {
-  description: '발주 등록 · 승인 · 입고 전환',
+  description: '발주 등록, 승인, 입고 전환',
   register: '발주 등록',
   empty: '등록된 발주 전표가 없습니다.',
   formTitle: '발주 등록',
@@ -337,10 +337,10 @@ export const NOTICES = {
 } as const;
 
 export const FORMAT = {
-  skuName: (sku: string, name: string) => `${sku} \u00b7 ${name}`,
-  codeName: (code: string, name: string) => `${code} \u00b7 ${name}`,
+  skuName: (sku: string, name: string) => `${sku} / ${name}`,
+  codeName: (code: string, name: string) => `${code} / ${name}`,
   beforeAfter: (before: number | null | undefined, after: number | null | undefined) =>
-    `${before ?? '-'}\u00a0\u2192\u00a0${after ?? '-'}`,
+    `${before ?? '-'} / ${after ?? '-'}`,
 } as const;
 
 export const ADVANCED = {

@@ -65,7 +65,7 @@ export function DashboardPage() {
 
   return (
     <div>
-      <PageHeader title={NAV.dashboard} description={DASHBOARD.description} eyebrow="Overview" />
+      <PageHeader title={NAV.dashboard} description={DASHBOARD.description} />
 
       <div className={styles.kpiGrid}>
         <KpiCard label={DASHBOARD.kpi.pendingInbound} value={kpi.pendingInbound} />

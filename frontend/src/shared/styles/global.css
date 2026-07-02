@@ -3,7 +3,7 @@
 @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;500;600;700&display=swap');
 
 :root {
-  /* my-shop 토큰 별칭 — 기존 컴포넌트 호환 */
+  /* my-shop 토큰 별칭 (기존 컴포넌트 호환) */
   --color-primary: var(--color-accent);
   --color-primary-hover: #4338ca;
   --color-primary-soft: var(--color-accent-muted);

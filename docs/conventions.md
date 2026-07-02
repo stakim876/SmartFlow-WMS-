@@ -14,20 +14,20 @@
 ## Backend 레이어 책임
 
 ```
-routes       → HTTP 메서드·경로·미들웨어만. 로직 금지.
-controller   → req/res 변환. service 호출.
-service      → 비즈니스 로직, Zod 스키마, 트랜잭션.
-repository   → Prisma CRUD. 비즈니스 판단 금지.
-core/        → 모든 모듈이 공유하는 인프라.
+routes       HTTP 메서드, 경로, 미들웨어만. 로직 금지.
+controller   req/res 변환. service 호출.
+service      비즈니스 로직, Zod 스키마, 트랜잭션.
+repository   Prisma CRUD. 비즈니스 판단 금지.
+core/        모든 모듈이 공유하는 인프라.
 ```
 
 ## Frontend 레이어 책임
 
 ```
-pages/       → 페이지 조합, 데이터 fetch, 상태 관리.
-components/  → 해당 feature 전용 UI.
-api/         → API 호출 함수 (axios).
-shared/      → 2개 이상 feature에서 쓰는 것만.
+pages/       페이지 조합, 데이터 fetch, 상태 관리.
+components/  해당 feature 전용 UI.
+api/         API 호출 함수 (axios).
+shared/      2개 이상 feature에서 쓰는 것만.
 ```
 
 ## API 응답
@@ -43,9 +43,9 @@ shared/      → 2개 이상 feature에서 쓰는 것만.
 ## Git 브랜치 (권장)
 
 ```
-main          → 운영
-develop       → 개발 통합
-feature/7.3-inbound   → 기능별 브랜치
+main          운영
+develop       개발 통합
+feature/7.3-inbound   기능별 브랜치
 fix/inventory-transfer
 ```
 
@@ -60,13 +60,13 @@ refactor(backend): modules 구조로 재배치
 
 ## 환경변수
 
-- `backend/.env` — `DATABASE_URL`, `JWT_SECRET`, `JWT_REFRESH_SECRET`
-- `frontend/.env` — `VITE_API_URL` (선택, 기본은 Vite proxy)
+- `backend/.env`: `DATABASE_URL`, `JWT_SECRET`, `JWT_REFRESH_SECRET`
+- `frontend/.env`: `VITE_API_URL` (선택, 기본은 Vite proxy)
 - `.env.example` 참고, `.env`는 git에 포함하지 않음
 
 ## 코드 스타일
 
 - TypeScript strict mode
 - `.editorconfig` 준수 (2 spaces, LF)
-- CSS Modules (`*.module.css`) — 컴포넌트별 스타일
-- 주석은 비즈니스 로직·복잡한 처리에만
+- CSS Modules (`*.module.css`)로 컴포넌트별 스타일
+- 주석은 비즈니스 로직, 복잡한 처리에만
